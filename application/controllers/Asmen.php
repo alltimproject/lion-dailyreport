@@ -162,16 +162,106 @@
         'id_sanksi' => $id
       );
 
-      $data['title'] = 'Print Sanksi';
-      $data['data'] = $this->m_sanksi->detail_sanksi($where)->result();
-      $html = $this->load->view('asmen/v_print_sanksi', $data, true);
+      $data = $this->m_sanksi->detail_sanksi($where)->result();
 
       $this->load->library('pdf');
-      $pdf = $this->pdf->load();
-      $pdf->SetProtection(array('print'));
-      $pdf->SetDisplayMode('fullpage');
-      $pdf->WriteHTML($html);
-      $pdf->Output("Surat_Peringatan.pdf" ,'I');
+      $pdf = new FPDF('P','mm','A4');
+      $pdf->AddPage();
+
+      $pdf->Image('images/bg03.png',90,10,30,10);
+      $pdf->ln(12);
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Cell(80);
+      $pdf->Cell(30,5,'PT. Lion Mentari Airlines',0,1,'C');
+      $pdf->Cell(80);
+      $pdf->Cell(30,5,'Jl. Gajah Mada no 7 Jakarta Pusat',0,1,'C');
+      $pdf->Cell(80);
+      $pdf->Cell(30,5,'Telp: (021) 63798000',0,1,'C');
+      $pdf->ln(5);
+      $pdf->Cell(190,0,'',1,0,'C');
+      $pdf->ln(5);
+
+      foreach ($data as $detail) {
+        $nip = $detail->nip;
+        $nama = $detail->nama;
+        $jabatan = $detail->jabatan;
+        $id_sanksi = $detail->id_sanksi;
+        $tanggal = $detail->tanggal_sanksi;
+        $jenis = $detail->jenis_sanksi;
+        $keterangan = $detail->keterangan_sanksi;
+
+        if($jenis == 'SP1')
+        {
+          $sp = 'Surat Peringatan Pertama';
+          $sp_next = 'akan diterbitkan Surat Peringatan Kedua';
+        } elseif($jenis == 'SP2') {
+          $sp = 'Surat Peringatan Kedua';
+          $sp_next = 'akan diterbitkan Surat Peringatan Ketiga';
+        } else {
+          $sp = 'Surat Peringatan Ketiga';
+          $sp_next = 'karyawan akan diberhentikan';
+        }
+      }
+
+      $pdf->SetFont('Arial','B',13);
+      $pdf->Cell(80);
+      $pdf->Cell(30,5,'Surat Peringatan',0,1,'C');
+      $pdf->SetFont('Arial','I',10);
+      $pdf->Cell(80);
+      $pdf->Cell(30,5,'Nomor: '.$id,0,1,'C');
+      $pdf->ln(10);
+
+      $pdf->SetFont('Arial','',10);
+      $pdf->Cell(0,5,'Surat Peringatan ini ditunjukkan kepada :',0,1);
+      $pdf->ln();
+
+      $pdf->Cell(50,5,'NIP',0,0);
+      $pdf->Cell(50,5,': '.$nip,0,0);
+      $pdf->ln();
+
+      $pdf->Cell(50,5,'Nama',0,0);
+      $pdf->Cell(50,5,': '.$nama,0,0);
+      $pdf->ln();
+
+      $pdf->Cell(50,5,'Jabatan',0,0);
+      $pdf->Cell(50,5,': '.$jabatan,0,0);
+      $pdf->ln(10);
+
+      $pdf->Cell(200,5,'Surat peringatan ini diberikan kepada saudara '.$nama.' dikarenakan karyawan yang bersangkutan',0,1);
+      $pdf->Cell(200,5,'melakukan kesalahan yakni '. $keterangan .'.',0,1);
+      $pdf->ln();
+
+      $pdf->Cell(200,5,'Sehubungan dengan pelanggaran tersebut, perusahaan memberikan '.$sp.' dengan ketentuan',0,1);
+      $pdf->Cell(200,5,'sebagai berikut :',0,1);
+      $pdf->ln();
+
+      $pdf->Cell(10, 5, '1. ', 0,0);
+      $pdf->Cell(190,5,'Surat peringatan ini berlaku 3 bulan sejak diterbitkan dan apabila dalam 3 bulan kedepan tidak melakukan',0,1);
+      $pdf->Cell(10, 5, '', 0,0);
+      $pdf->Cell(190,5,'maka '.$sp .' ini sudah tidak berlaku.',0,0);
+      $pdf->ln();
+
+      $pdf->Cell(10, 5, '2. ', 0,0);
+      $pdf->Cell(190,5,'Apabila dalam kurun waktu 3 bulan kedepan saudara melakukan pelanggaran maka ',0,1);
+      $pdf->Cell(10, 5, ' ', 0,0);
+      $pdf->Cell(190,5,$sp_next,0,1);
+      $pdf->ln();
+
+      $pdf->Cell(200,5,'Demikian Surat Peringatan ini dikeluarkan untuk menjadi bahan perenungan dan bahan perhatian.',0,1);
+      $pdf->ln(10);
+
+      $pdf->Cell(130);
+      $pdf->Cell(0,5,'Jakarta, '.date('d M Y', strtotime($tanggal)),0,1);
+      $pdf->ln();
+
+      $pdf->Cell(130);
+      $pdf->Cell(0,0,'Asisten Manajer',0,1);
+      $pdf->ln(30);
+
+      $pdf->Cell(130);
+      $pdf->Cell(0,0,'( '.$this->session->userdata('nama').' )',0,1);
+
+      $pdf->Output();
     }
 
 

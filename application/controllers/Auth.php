@@ -15,7 +15,7 @@
     {
       if($this->session->userdata('login') == true)
       {
-        redirect('main/');
+        redirect('main/#dashboard');
       }
 
       $data['title'] = "Login | Daily Report";

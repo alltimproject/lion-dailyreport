@@ -13,7 +13,7 @@
                 <h4>Form Report</h4>
                 <div class="clearfix"></div>
             </div>
-            
+
             <div class="x_content">
                 <br />
 
@@ -134,7 +134,11 @@
                         html_report += `<td>${no}</td>`;
                         html_report += `<td>${v.kd_booking}</td>`;
                         html_report += `<td>${v.klasifikasi}</td>`;
-                        html_report += `<td><button type="button" class="btn btn-success btn-md" id="edit" data-id_report="${v.id_report}" data-tanggal_report="${v.tanggal_report}" data-kd_booking="${v.kd_booking}" data-klasifikasi="${v.klasifikasi}" data-keterangan="${v.keterangan}"><i class="fa fa-pencil"></i></button></td>`;
+                        if(v.status == 'Proses'){
+                          html_report += `<td><button type="button" class="btn btn-success btn-md" id="edit" data-id_report="${v.id_report}" data-tanggal_report="${v.tanggal_report}" data-kd_booking="${v.kd_booking}" data-klasifikasi="${v.klasifikasi}" data-keterangan="${v.keterangan}"><i class="fa fa-pencil"></i></button></td>`;
+                        } else {
+                          html_report += `<td>Valid <i class="fa fa-check"></i></td>`
+                        }
                         html_report += `</tr>`;
                     });
 

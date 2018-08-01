@@ -92,26 +92,72 @@
       $data['tgl_from'] = $tgl_from;
       $data['tgl_to'] = $tgl_to;
 
-      if(isset($tgl_from) && isset($tgl_to))
-      {
-        $between = "tanggal_report BETWEEN '$tgl_from' AND '$tgl_to'";
-        $data['data'] = $this->m_report->show_report(null, null, $between, null)->result();
-      } elseif($tgl_from == '' && $tgl_to == ''){
-        $data['data'] = $this->m_report->show_report(null, null, null, null)->result();
-      }
-
       if(null !== $this->input->post('excel'))
       {
+        if(isset($tgl_from) && isset($tgl_to))
+        {
+          $between = "tanggal_report BETWEEN '$tgl_from' AND '$tgl_to'";
+          $data['data'] = $this->m_report->show_report(null, null, $between, null)->result();
+        } elseif($tgl_from == '' && $tgl_to == ''){
+          $data['data'] = $this->m_report->show_report(null, null, null, null)->result();
+        }
+
         $this->load->view('admin/v_report_excel', $data);
       } elseif(null !== $this->input->post('pdf')){
-        $html = $this->load->view('admin/v_report_pdf', $data, true);
+
+        if(isset($tgl_from) && isset($tgl_to))
+        {
+          $between = "tanggal_report BETWEEN '$tgl_from' AND '$tgl_to'";
+          $data = $this->m_report->show_report(null, null, $between, null);
+        } elseif($tgl_from == '' && $tgl_to == ''){
+          $data = $this->m_report->show_report(null, null, null, null);
+        }
 
         $this->load->library('pdf');
-        $pdf = $this->pdf->load();
-        $pdf->SetProtection(array('print'));
-        $pdf->SetDisplayMode('fullpage');
-        $pdf->WriteHTML($html);
-        $pdf->Output("Data_Report.pdf" ,'I');
+    		$pdf = new FPDF('L','mm','A4');
+    		$pdf->AddPage();
+
+        $pdf->Image('images/bg03.png',130,10,30,10);
+        $pdf->ln(12);
+        $pdf->SetFont('Arial','B',10);
+    		$pdf->Cell(120);
+    		$pdf->Cell(30,5,'PT. Lion Mentari Airlines',0,1,'C');
+    		$pdf->Cell(120);
+    		$pdf->Cell(30,5,'Jl. Gajah Mada no 7 Jakarta Pusat',0,1,'C');
+    		$pdf->Cell(120);
+    		$pdf->Cell(30,5,'Telp: (021) 63798000',0,1,'C');
+    		$pdf->ln(5);
+    		$pdf->Cell(280,0,'',1,0,'C');
+    		$pdf->ln(5);
+
+        $pdf->SetFont('Arial','B',13);
+        $pdf->Cell(0,5,'Data Report periode '.$tgl_from.' s/d '.$tgl_to,0,0);
+        $pdf->ln(10);
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(10,7,'No',1,0,'C');
+        $pdf->Cell(30,7,'ID Report',1,0,'C');
+        $pdf->Cell(20,7,'Booking',1,0,'C');
+        $pdf->Cell(30,7,'Tanggal',1,0,'C');
+        $pdf->Cell(20,7,'Klasifikasi',1,0,'C');
+        $pdf->Cell(90,7,'Keterangan',1,0,'C');
+        $pdf->Cell(60,7,'PIC',1,0,'C');
+        $pdf->Cell(20,7,'Status',1,0,'C');
+
+        $pdf->SetFont('Arial','',10);
+        $no = 1;
+        foreach ($data->result() as $key) {
+          $pdf->ln();
+          $pdf->Cell(10,7,$no++,1,0,'C');
+          $pdf->Cell(30,7,$key->id_report,1,0,'C');
+          $pdf->Cell(20,7,$key->kd_booking,1,0,'C');
+          $pdf->Cell(30,7,$key->tanggal_report,1,0,'C');
+          $pdf->Cell(20,7,$key->klasifikasi,1,0,'C');
+          $pdf->Cell(90,7,$key->keterangan,1,0,'C');
+          $pdf->Cell(60,7,$key->nama,1,0,'C');
+          $pdf->Cell(20,7,$key->status,1,0,'C');
+        }
+
+        $pdf->Output();
       }
     }
 
@@ -219,17 +265,20 @@
 
       if($jabatan == 'Koordinator'){
         $hak_akses = 'Koordinator';
+        $password = 'koordinator';
       } elseif($jabatan == 'Asisten Manajer') {
         $hak_akses = 'Asisten Manajer';
+        $password = 'asmen';
       } else {
         $hak_akses = 'Call Center';
+        $password = 'callcenter';
       }
 
       $data = array(
         'nip' => $this->input->post('new-nip'),
         'nama' => $this->input->post('nama'),
         'jabatan' => $this->input->post('jabatan'),
-        'password' => md5('callcenter'),
+        'password' => md5($password),
         'hak_akses' => $hak_akses,
       );
 

@@ -90,24 +90,6 @@
 
                         </div>
                         <!-- /sidebar menu -->
-
-                        <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
-                            <a data-toggle="tooltip" data-placement="top" title="Password" id="ganti_password">
-                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-              </a>
-                            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                                <!-- onclick="toggleFullScreen(document.body)" -->
-                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?= base_url().'auth/logOut' ?>">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-                        </div>
-                        <!-- /menu footer buttons -->
                 </div>
             </div>
 
@@ -155,16 +137,26 @@
                         </div>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li role="presentation" class="dropdown">
-                                <a>
-                                    <?= date("d M Y") ?>
-                                </a>
-                            </li>
+                          <li role="presentation" class="dropdown">
+                              <a data-toggle="tooltip" data-placement="bottom" title="Logout" href="<?= base_url().'auth/logOut' ?>">
+                                  <i class="glyphicon glyphicon-off"></i>
+                              </a>
+                          </li>
+                          <li role="presentation" class="dropdown">
+                              <a data-toggle="tooltip" data-placement="bottom" title="Password" id="ganti_password">
+                                  <i class="fa fa-lock"></i>
+                              </a>
+                          </li>
                             <li role="presentation" class="dropdown" id="open-chat">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span id="chat-in"></span>
                   </a>
+                            </li>
+                            <li role="presentation" class="dropdown">
+                                <a>
+                                    <?= date("d M Y") ?>
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -183,7 +175,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    made with <i class="fa fa-heart"></i> by <a href="#">AllTimProject</a>
+                    made with <i class="fa fa-heart"></i> by <a>Hesti Kurniawati</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>

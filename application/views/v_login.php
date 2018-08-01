@@ -56,7 +56,7 @@
                             <h1>
                                 <center><img src="<?= base_url().'images/bg03.png' ?>" class="img img-responsive" style="width: 50%"></center>
                             </h1>
-                            <p class="color-red">made with <i class="fa fa-heart"></i> by AllTimProject. ©2018 All Rights Reserved</p>
+                            <p class="color-red">made with <i class="fa fa-heart"></i> by Hesti Kurniawati. ©2018 All Rights Reserved</p>
                         </div>
                     </div>
                 </form>
