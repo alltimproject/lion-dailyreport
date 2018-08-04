@@ -16,6 +16,7 @@
     <link href="<?= base_url().'assets/vendors/nprogress/nprogress.css' ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/vendors/toastr/build/toastr.min.css' ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/build/css/custom.min.css' ?>" rel="stylesheet">
+    <link href="<?= base_url().'assets/preloader.css' ?>" rel="stylesheet">
 
     <style media="screen">
         .color-red {

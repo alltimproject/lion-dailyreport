@@ -22,7 +22,6 @@
     <link href="<?= base_url().'assets/vendors/animate.css/animate.min.css' ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/vendors/jquery-ui/jquery-ui.min.css' ?>" rel="stylesheet">
     <link href="<?= base_url().'assets/build/css/custom.css' ?>" rel="stylesheet">
-    <link href="<?= base_url().'assets/preloader.css' ?>" rel="stylesheet">
 
     <style media="screen">
         .clicked {
@@ -343,8 +342,6 @@
             }
 
             $(window).on('hashchange', function() {
-
-                // $('#content').html('<div class="preload-wrapper"><div id="preloader_2"><span></span><span></span><span></span><span></span></div></div>');
                 href = location.hash.substr(1);
                 load_content(href);
             });

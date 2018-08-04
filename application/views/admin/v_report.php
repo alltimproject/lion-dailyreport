@@ -32,6 +32,7 @@
 <div class="clearfix"></div>
 
 <div class="x_panel">
+  <div class="table-responsive">
     <table class="table jambo_table" id="coba">
         <thead>
             <tr>
@@ -47,6 +48,7 @@
         </thead>
         <tbody id="data-report"></tbody>
     </table>
+  </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="modal-case">
